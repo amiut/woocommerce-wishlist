@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerceWishlist Address class
+ * WooCommerceWishlist Bookmark class
  *
  * @package WooCommerceWishlist
  * @since   1.0
@@ -204,7 +204,7 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
 			case 'ids':
 				return wp_list_pluck( $results, 'ID' );
 			case 'objects':
-				return array_map( [ $this, 'get_address' ], $results );
+				return array_map( [ $this, 'get_bookmark' ], $results );
 			default:
 				return $results;
 		}

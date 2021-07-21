@@ -141,8 +141,8 @@ CREATE TABLE {$wpdb->prefix}dweb_bookmark_lists (
   description longtext NULL,
   user_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (ID),
-  KEY ID (address_id),
   KEY user_id (user_id),
+  KEY is_public (is_public),
   UNIQUE KEY slug (slug($max_index_length))
 ) $collate;
         ";

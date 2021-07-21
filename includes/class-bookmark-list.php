@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerceWishlist Bookmark class
+ * WooCommerceWishlist Bookmark List class
  *
  * @package WooCommerceWishlist
  * @since   1.0
@@ -11,9 +11,9 @@ namespace Dornaweb\WooCommerceWishlist;
 defined('ABSPATH') || exit;
 
 /**
- * WooCommerceWishlist Bookmark class
+ * WooCommerceWishlist Bookmark list class
  */
-class Bookmark extends Data
+class Bookmark_List extends Data
 {
     /**
 	 * Order Data array. This is the core order data exposed in APIs since 1.0.0.

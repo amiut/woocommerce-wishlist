@@ -10,7 +10,7 @@
  * Text Domain: woowishlist
  * Domain Path: /languages
  *
- * @package Woocommerce Address Manager
+ * @package Woocommerce Wishlist Plugin
  */
 
 namespace Dornaweb;
