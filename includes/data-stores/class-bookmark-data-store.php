@@ -20,9 +20,11 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
                 'entry_id'      => $bookmark->get_entry_id(),
                 'variation_id'  => $bookmark->get_variation_id(),
                 'list_id'       => $bookmark->get_list_id(),
+                'user_id'       => $bookmark->get_user_id(),
                 'note'          => $bookmark->get_note(),
             ],
             [
+                '%d',
                 '%d',
                 '%d',
                 '%d',
@@ -48,7 +50,7 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
 
 		$bookmark->set_defaults();
 
-        $fields = ['entry_id', 'variation_id', 'list_id', 'note'];
+        $fields = ['entry_id', 'variation_id', 'list_id', 'user_id', 'note'];
 
 		$data = $wpdb->get_row(
             $wpdb->prepare(
@@ -87,6 +89,7 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
             'entry_id'      => $bookmark->get_entry_id(),
             'variation_id'  => $bookmark->get_variation_id(),
             'list_id'       => $bookmark->get_list_id(),
+            'user_id'       => $bookmark->get_user_id(),
             'note'          => $bookmark->get_note(),
         ];
 
@@ -138,19 +141,20 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
      * Check if an entry is bookmarked
      *
      * @param int $entry_id
+     * @param int $user_id
      * @param int $variation_id
      *
      * @return bool
      */
-    public function is_bookmarked($entry_id, $variation_id = 0) {
+    public function is_bookmarked($entry_id, $user_id, $variation_id = 0) {
         global $wpdb;
 
-        $valid_fields       = ['ID', 'entry_id', 'variation_id', 'list_id', 'note'];
 		$get_results_output = ARRAY_A;
 
         $query = [];
-        $query[] = "SELECT {$fields} FROM {$wpdb->prefix}dweb_bookmarks WHERE 1=1";
+        $query[] = "SELECT ID FROM {$wpdb->prefix}dweb_bookmarks WHERE 1=1";
         $query[] = $wpdb->prepare( 'AND entry_id = %d', absint( $entry_id ) );
+        $query[] = $wpdb->prepare( 'AND user_id = %d', absint( $user_id ) );
 
         if ($variation_id) {
             $query[] = $wpdb->prepare( 'AND variation_id = %d', absint( $variation_id ) );
@@ -174,10 +178,11 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
 			$args,
 			[
 				'list_id'     => 0,
+				'user_id'     => 0,
             ]
 		);
 
-        $valid_fields       = ['ID', 'entry_id', 'variation_id', 'list_id', 'note'];
+        $valid_fields       = ['ID', 'entry_id', 'variation_id', 'list_id', 'user_id', 'note'];
 		$get_results_output = ARRAY_A;
 
         if ( 'ids' === $args['return'] ) {
@@ -195,6 +200,10 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
 
         if ($args['list_id']) {
             $query[] = $wpdb->prepare( 'AND list_id = %d', absint( $args['list_id'] ) );
+        }
+
+        if ($args['user_id']) {
+            $query[] = $wpdb->prepare( 'AND user_id = %d', absint( $args['user_id'] ) );
         }
 
         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared

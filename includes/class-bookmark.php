@@ -25,6 +25,7 @@ class Bookmark extends Data
         'entry_id'      => 0,
         'variation_id'  => 0,
         'list_id'       => 0,
+        'user_id'       => 0,
         'note'          => '',
 	);
 
@@ -146,6 +147,15 @@ class Bookmark extends Data
      * @param string $context View or Edit context
      * @return
      */
+    public function get_user_id($context = 'view') {
+        return $this->get_prop('user_id', $context);
+    }
+
+    /**
+     *
+     * @param string $context View or Edit context
+     * @return
+     */
     public function get_note($context = 'view') {
         return $this->get_prop('note', $context);
     }
@@ -185,6 +195,15 @@ class Bookmark extends Data
      */
     public function set_list_id($list_id = 0) {
         $this->set_prop( 'list_id', $list_id );
+    }
+
+    /**
+     * Set list id
+     *
+     * @param string $user_id
+     */
+    public function set_user_id($user_id = 0) {
+        $this->set_prop( 'user_id', $user_id );
     }
 
     /**
