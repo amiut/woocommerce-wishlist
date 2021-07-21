@@ -113,17 +113,7 @@ class Bookmark extends Data
      * @return
      */
     public function get_entry_id($context = 'view') {
-        return $this->get_prop('entry_id', $context);
-    }
-
-    /**
-     * Alias of get_entry_id
-     *
-     * @param string $context View or Edit context
-     * @return
-     */
-    public function get_product_id($context = 'view') {
-        return $this->get_entry_id($context);
+        return absint($this->get_prop('entry_id', $context));
     }
 
     /**
@@ -132,7 +122,7 @@ class Bookmark extends Data
      * @return
      */
     public function get_list_id($context = 'view') {
-        return $this->get_prop('list_id', $context);
+        return absint($this->get_prop('list_id', $context));
     }
 
     /**
@@ -141,7 +131,7 @@ class Bookmark extends Data
      * @return
      */
     public function get_user_id($context = 'view') {
-        return $this->get_prop('user_id', $context);
+        return absint($this->get_prop('user_id', $context));
     }
 
     /**
@@ -154,12 +144,38 @@ class Bookmark extends Data
     }
 
     /**
+     *
+     * @return int
+     */
+    public function get_product_id() {
+        return get_post_type($this->get_entry_id()) === 'product' ? $this->get_entry_id() : false;
+    }
+
+    /**
+     *
+     * @return WC_Product
+     */
+    public function get_product() {
+        $product_id = wp_get_post_parent_id($this->get_entry_id()) ? wp_get_post_parent_id($this->get_entry_id()) : $this->get_entry_id();
+        return get_post_type($product_id) === 'product' && function_exists('wc_get_product') ? wc_get_product($product_id) : false;
+    }
+
+    /**
+     * Get post object
+     *
+     * @return WP_Post
+     */
+    public function get_post() {
+        return $this->get_entry_id() && get_post($this->get_entry_id()) ? get_post($this->get_entry_id()) : false;
+    }
+
+    /**
      * Set entry id
      *
      * @param int $entry_id
      */
     public function set_entry_id($entry_id = 0) {
-        $this->set_prop( 'entry_id', $entry_id );
+        $this->set_prop( 'entry_id', absint($entry_id));
     }
 
     /**
@@ -178,7 +194,7 @@ class Bookmark extends Data
      * @param string $list_id
      */
     public function set_list_id($list_id = 0) {
-        $this->set_prop( 'list_id', $list_id );
+        $this->set_prop( 'list_id', absint($list_id) );
     }
 
     /**
@@ -187,7 +203,7 @@ class Bookmark extends Data
      * @param string $user_id
      */
     public function set_user_id($user_id = 0) {
-        $this->set_prop( 'user_id', $user_id );
+        $this->set_prop( 'user_id', absint($user_id) );
     }
 
     /**

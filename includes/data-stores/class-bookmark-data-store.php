@@ -190,7 +190,7 @@ class Bookmark_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfaces\Bo
         }
 
         if ($args['post_type']) {
-            $query[] = $wpdb->prepare( 'AND post_type = %s', absint( $args['post_type'] ) );
+            $query[] = $wpdb->prepare( 'AND post_type = %s', $args['post_type'] );
         }
 
         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared

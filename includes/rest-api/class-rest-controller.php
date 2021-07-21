@@ -34,9 +34,8 @@ abstract class REST_Controller extends \WP_REST_Controller
     public $methods = ['GET'];
 
     public $override = false;
-    public $has_one = false;
     public $one_path = "(?P<id>\d+)";
-    public $one_methods;
+    public $one_method = [];
 
     /**
      * Constructor
@@ -63,26 +62,24 @@ abstract class REST_Controller extends \WP_REST_Controller
 
         register_rest_route($this->namespace, "/" . $this->path, $args, $this->override);
 
-        if ($this->has_one) {
-            $args = [];
-
-            foreach ($this->one_methods as $method) {
-                $args[] = [
-                    'methods'   => $method,
-                    'callback'              => [$this, strtolower($method) . "_one"],
-                    // 'permission_callback'   => [$this, 'permission_' . strtolower($method)],
-                    'args' => [
-                        'id' => [
-                          'validate_callback' => function($param, $request, $key) {
-                            return is_numeric( $param );
-                          }
-                        ],
+        // Register `one` methods
+        $args = [];
+        foreach ($this->one_methods as $method) {
+            $args[] = [
+                'methods'   => $method,
+                'callback'              => [$this, strtolower($method) . "_one"],
+                'permission_callback'   => [$this, 'permission_' . strtolower($method) . '_one'],
+                'args' => [
+                    'id' => [
+                        'validate_callback' => function($param, $request, $key) {
+                        return is_numeric( $param );
+                        }
                     ],
-                ];
-            }
-
-            register_rest_route($this->base, "/" . $this->path . "/" . $this->one_path, $args, $this->override);
+                ],
+            ];
         }
+
+        register_rest_route($this->namespace, "/" . $this->path . "/" . $this->one_path, $args, $this->override);
     }
 
     public function additional_routes() {}

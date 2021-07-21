@@ -4,6 +4,7 @@
  *
  */
 use Dornaweb\WooCommerceWishlist\Data_Store;
+use Dornaweb\WooCommerceWishlist\Bookmarks_Factory;
 
 /**
  * Check if an entry is bookmarked
@@ -31,15 +32,6 @@ if (!function_exists('dweb_wishlist_is_bookmarked')) {
  */
 if (!function_exists('dweb_wishlist_get_bookmarks')) {
     function dweb_wishlist_get_bookmarks($args = []) {
-        $args = wp_parse_args(
-			$args,
-			[
-				'list_id'           => 0,
-				'user_id'           => (int) get_current_user_id(),
-            ]
-		);
-
-        $data_store = Data_Store::load('bookmark');
-        return $data_store->get_bookmarks($args);
+        return Bookmarks_Factory::get_bookmarks($args);
     }
 }

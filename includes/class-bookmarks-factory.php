@@ -26,7 +26,7 @@ class Bookmarks_Factory extends Data
 			[
 				'list_id'           => 0,
 				'user_id'           => (int) get_current_user_id(),
-                'entry_id'          => get_the_ID(),
+                'entry_id'          => 0,
                 'note'              => '',
             ]
 		);
@@ -63,8 +63,12 @@ class Bookmarks_Factory extends Data
      *
      * @param array $args
      */
-    public static function unbookmark($entry_id = 0, $user_id = 0, $list_id = 0) {
+    public static function unbookmark($entry_id = 0, $list_id = 0, $user_id = 0) {
         $data_store = Data_Store::load('bookmark');
+
+
+        var_dump($entry_id);
+        var_dump($list_id);
 
         if (!$data_store->is_bookmarked($entry_id, $user_id, $list_id)) {
             throw new Data_Exception('dweb_wishlist_nothing_to_remove', __('Entry is not bookmarked', 'woowishlist'));
@@ -94,8 +98,6 @@ class Bookmarks_Factory extends Data
                 'post_type'         => 'product',
             ]
 		);
-
-        var_dump($args);
 
         $data_store = Data_Store::load('bookmark');
         return $data_store->get_bookmarks($args);
