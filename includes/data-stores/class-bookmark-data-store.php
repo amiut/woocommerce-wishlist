@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerceWishlist Bookmark class
+ * WooCommerceWishlist Bookmark Data Store class
  *
  * @package WooCommerceWishlist
  * @since   1.0

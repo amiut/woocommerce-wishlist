@@ -22,10 +22,11 @@ class Bookmark_List extends Data
 	 * @var array
 	 */
 	protected $data = array(
-        'entry_id'      => 0,
-        'variation_id'  => 0,
-        'list_id'       => 0,
-        'note'          => '',
+        'title'         => '',
+        'slug'          => '',
+        'user_id'       => 0,
+        'description'   => '',
+        'is_public'     => 0,
 	);
 
 
@@ -35,7 +36,7 @@ class Bookmark_List extends Data
 	 *
 	 * @var string
 	 */
-	protected $cache_group = 'bookmarks';
+	protected $cache_group = 'bookmark_lists';
 
     /**
 	 * Meta type. This should match up with
@@ -44,34 +45,34 @@ class Bookmark_List extends Data
 	 *
 	 * @var string
 	 */
-	protected $meta_type = 'bookmark';
+	protected $meta_type = 'bookmark_list';
 
     /**
 	 * This is the name of this object type.
 	 *
 	 * @var string
 	 */
-	protected $object_type = 'bookmark';
+	protected $object_type = 'bookmark_list';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param int|object|array $bookmark ID to load from the DB, or Bookmark object.
+	 * @param int|object|array $bookmark_list ID to load from the DB, or Bookmark_list object.
 	 */
-	public function __construct( $bookmark = 0 ) {
-		parent::__construct( $bookmark );
+	public function __construct( $bookmark_list = 0 ) {
+		parent::__construct( $bookmark_list );
 
-		if ( $bookmark instanceof Bookmark ) {
-			$this->set_id( $bookmark->get_id() );
-		} elseif ( is_numeric( $bookmark ) && $bookmark > 0 ) {
-			$this->set_id( $bookmark );
-		} elseif ( ! empty( $bookmark->ID ) ) {
-			$this->set_id( absint( $bookmark->ID ) );
+		if ( $bookmark_list instanceof Bookmark_list ) {
+			$this->set_id( $bookmark_list->get_id() );
+		} elseif ( is_numeric( $bookmark_list ) && $bookmark_list > 0 ) {
+			$this->set_id( $bookmark_list );
+		} elseif ( ! empty( $bookmark_list->ID ) ) {
+			$this->set_id( absint( $bookmark_list->ID ) );
         }
 
-		$this->data_store = Data_Store::load( 'bookmark' );
+		$this->data_store = Data_Store::load( 'bookmark_list' );
 
-		// If we have an ID, load the bookmark from the DB.
+		// If we have an ID, load the bookmark_list from the DB.
 		if ( $this->get_id() ) {
 			try {
 				$this->data_store->read( $this );
@@ -108,28 +109,8 @@ class Bookmark_List extends Data
      * @param string $context View or Edit context
      * @return
      */
-    public function get_entry_id($context = 'view') {
-        return $this->get_prop('entry_id', $context);
-    }
-
-    /**
-     * Alias of get_entry_id
-     *
-     * @param string $context View or Edit context
-     * @return
-     */
-    public function get_product_id($context = 'view') {
-        return $this->get_entry_id($context);
-    }
-
-    /**
-     * Alias of get_entry_id
-     *
-     * @param string $context View or Edit context
-     * @return
-     */
-    public function get_variation_id($context = 'view') {
-        return $this->get_prop('variation_id', $context);
+    public function get_title($context = 'view') {
+        return $this->get_prop('title', $context);
     }
 
     /**
@@ -137,8 +118,8 @@ class Bookmark_List extends Data
      * @param string $context View or Edit context
      * @return
      */
-    public function get_list_id($context = 'view') {
-        return $this->get_prop('list_id', $context);
+    public function get_slug($context = 'view') {
+        return $this->get_prop('slug', $context);
     }
 
     /**
@@ -146,53 +127,70 @@ class Bookmark_List extends Data
      * @param string $context View or Edit context
      * @return
      */
-    public function get_note($context = 'view') {
-        return $this->get_prop('note', $context);
+    public function get_description($context = 'view') {
+        return $this->get_prop('description', $context);
     }
 
     /**
-     * Set entry id
      *
-     * @param int $entry_id
+     * @param string $context View or Edit context
+     * @return
      */
-    public function set_entry_id($entry_id = 0) {
-        $this->set_prop( 'entry_id', $entry_id );
+    public function get_user_id($context = 'view') {
+        return $this->get_prop('user_id', $context);
     }
 
     /**
-     * Set product id
-     * Alias of set_entry_id
      *
-     * @param int $product_id
+     * @param string $context View or Edit context
+     * @return
      */
-    public function set_product_id($product_id = 0) {
-        $this->set_entry_id($product_id);
+    public function is_public($context = 'view') {
+        return (bool) $this->get_prop('is_public', $context);
     }
 
     /**
-     * Set variation id
+     * Set Title
      *
-     * @param string $variation_id
+     * @param int $title
      */
-    public function set_variation_id($variation_id = 0) {
-        $this->set_prop( 'variation_id', $variation_id );
+    public function set_title($title = '') {
+        $this->set_prop( 'title', $title );
     }
 
     /**
-     * Set list id
+     * Set slug
      *
-     * @param string $list_id
+     * @param int $slug
      */
-    public function set_list_id($list_id = 0) {
-        $this->set_prop( 'list_id', $list_id );
+    public function set_slug($slug = '') {
+        $this->set_prop( 'slug', $slug );
     }
 
     /**
-     * Set note
+     * Set description
      *
-     * @param string $note
+     * @param int $description
      */
-    public function set_note($note = '') {
-        $this->set_prop( 'note', $note );
+    public function set_description($description = '') {
+        $this->set_prop( 'description', $description );
+    }
+
+    /**
+     * Set user_id
+     *
+     * @param int $user_id
+     */
+    public function set_user_id($user_id = 0) {
+        $this->set_prop( 'user_id', $user_id );
+    }
+
+    /**
+     * Set is_public
+     *
+     * @param int $is_public
+     */
+    public function set_is_public($is_public = 0) {
+        $this->set_prop( 'is_public', $is_public );
     }
 }
