@@ -10,7 +10,7 @@ namespace Dornaweb\WooCommerceWishlist\Rest_API\Utils;
 /**
  * Singleton trait.
  */
-trait SingletonTrait {
+trait Singleton_Trait {
 	/**
 	 * The single instance of the class.
 	 *

@@ -76,7 +76,7 @@ class Bookmark_List extends Data
 		if ( $this->get_id() ) {
 			try {
 				$this->data_store->read( $this );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				$this->set_id( 0 );
 				$this->set_object_read( true );
 			}
@@ -103,6 +103,10 @@ class Bookmark_List extends Data
 		}
 		$this->changes = [];
 	}
+
+    public function exists() {
+        return $this->get_id() > 0;
+    }
 
     /**
      *

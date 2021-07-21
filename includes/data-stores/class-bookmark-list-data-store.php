@@ -49,7 +49,7 @@ class Bookmark_List_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfac
 	 *
 	 * @param Bookmark_List $bookmark_list Bookmark_List object.
 	 *
-	 * @throws Exception If invalid bookmark list.
+	 * @throws \Exception If invalid bookmark list.
 	 */
 	public function read( &$bookmark_list ) {
 		global $wpdb;
@@ -66,7 +66,7 @@ class Bookmark_List_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfac
         );
 
 		if ( ! $data ) {
-			throw new Exception( __( 'Invalid Bookmark.', 'woowishlist' ) );
+			throw new \Exception( __( 'Bookmark List Does not exist.', 'woowishlist' ) );
 		}
 
 		$bookmark_list->set_props(
@@ -92,10 +92,11 @@ class Bookmark_List_Data_Store implements \Dornaweb\WooCommerceWishlist\Interfac
 		$changes = $webhook->get_changes();
 
         $data = [
-            'entry_id'      => $bookmark_list->get_entry_id(),
-            'variation_id'  => $bookmark_list->get_variation_id(),
-            'list_id'       => $bookmark_list->get_list_id(),
-            'note'          => $bookmark_list->get_note(),
+            'title'         => $bookmark_list->get_title(),
+            'slug'          => $bookmark_list->get_slug(),
+            'description'   => $bookmark_list->get_description(),
+            'user_id'       => $bookmark_list->get_user_id(),
+            'is_public'     => $bookmark_list->is_public() ? 1 : 0,
         ];
 
         $wpdb->update(

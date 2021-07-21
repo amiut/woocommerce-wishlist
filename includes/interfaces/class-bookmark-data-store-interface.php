@@ -34,14 +34,6 @@ interface Bookmark_Data_Store_Interface {
 	public function read( &$bookmark );
 
 	/**
-	 * Update a Bookmark
-	 *
-	 * @param  array $bookmark Order Data.
-	 * @return int   Bookmark ID
-	 */
-	public function update( &$bookmark );
-
-	/**
 	 * Delete a Bookmark
 	 *
 	 * @param  array $bookmark Order Data.
@@ -50,22 +42,13 @@ interface Bookmark_Data_Store_Interface {
 	public function delete( &$bookmark );
 
 	/**
-	 * Get a bookmark object.
-	 *
-	 * @param  array $data From the DB.
-	 * @return \Dornaweb\WooCommerceWishlist\Bookmark
-	 */
-	public function get_bookmark( $data );
-
-	/**
      * Check if an entry is bookmarked
      *
      * @param int $entry_id
-     * @param int $variation_id
      *
      * @return bool
      */
-	public function is_bookmarked( $entry_id, $variation_id = 0 );
+	public function is_bookmarked($entry_id, $user_id);
 
     /**
      * Query Bookmarks

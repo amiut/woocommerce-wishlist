@@ -1,21 +1,21 @@
 <?php
 /**
- * Initialize this version of the REST API.
+ * REST API Server
  *
  * @package WooCommerceWishlist\RestApi
  */
 
 namespace Dornaweb\WooCommerceWishlist\Rest_API;
+use Dornaweb\WooCommerceWishlist\Rest_API\Utils\Singleton_Trait;
 
 defined( 'ABSPATH' ) || exit;
 
-use Dornaweb\WooCommerceWishlist\Rest_API\Utils\SingletonTrait;
 
 /**
  * Class responsible for loading the REST API and all REST API namespaces.
  */
 class Server {
-	use SingletonTrait;
+	use Singleton_Trait;
 
 	/**
 	 * REST API namespaces and endpoints.
@@ -64,7 +64,7 @@ class Server {
 	 */
 	protected function get_v1_controllers() {
 		return array(
-			'bookmarks' => '\\Dornaweb\\WooCommerceWishlist\\Rest_API\\Controller\\V1\\Bookmarks_REST_Controller',
+			'bookmarks' => '\Dornaweb\WooCommerceWishlist\Rest_API\Controllers\V1\Bookmarks_REST_Controller',
 		);
 	}
 

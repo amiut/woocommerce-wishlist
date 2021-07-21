@@ -58,6 +58,12 @@ final class App
         $this->define_constants();
         $this->includes();
         $this->init();
+        $this->init_hooks();
+
+    }
+
+    public function init_hooks() {
+        add_action( 'init', array( $this, 'load_rest_api' ) );
     }
 
     /**
@@ -128,5 +134,12 @@ final class App
      * Register scripts and styles for public area
      */
     public function public_dependencies() {
+    }
+
+    /**
+     * Load REST api
+     */
+    public function load_rest_api() {
+        \Dornaweb\WooCommerceWishlist\Rest_API\Server::instance()->init();
     }
 }

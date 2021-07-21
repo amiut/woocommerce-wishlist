@@ -49,14 +49,6 @@ interface Bookmark_List_Data_Store_Interface {
 	 */
 	public function delete( &$bookmark_list );
 
-	/**
-	 * Get a bookmark list object.
-	 *
-	 * @param  array $data From the DB.
-	 * @return \Dornaweb\WooCommerceWishlist\Bookmark
-	 */
-	public function get_bookmark_list( $data );
-
     /**
      * Query Bookmarks
      *

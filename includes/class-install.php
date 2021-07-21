@@ -124,14 +124,15 @@ class Install
 CREATE TABLE {$wpdb->prefix}dweb_bookmarks(
     ID bigint(20) UNSIGNED NOT NULL auto_increment,
     entry_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
-    variation_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
     list_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
     user_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+    post_type varchar(200),
     note longtext NULL,
     PRIMARY KEY (ID),
     KEY entry_id (entry_id),
     KEY list_id (list_id),
-    KEY user_id (user_id)
+    KEY user_id (user_id),
+    KEY post_type (post_type(10))
 ) $collate;
 CREATE TABLE {$wpdb->prefix}dweb_bookmark_lists (
   ID BIGINT UNSIGNED NOT NULL auto_increment,

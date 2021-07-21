@@ -34,6 +34,7 @@ class Data_Store {
 	 */
 	private $stores = array(
 		'bookmark'                => '\\Dornaweb\\WooCommerceWishlist\\Data_Stores\\Bookmark_Data_Store',
+		'bookmark_list'                => '\\Dornaweb\\WooCommerceWishlist\\Data_Stores\\Bookmark_List_Data_Store',
 	);
 
 	/**
@@ -55,7 +56,7 @@ class Data_Store {
 	 * Tells Data_Store which object (coupon, product, order, etc)
 	 * store we want to work with.
 	 *
-	 * @throws Exception When validation fails.
+	 * @throws \Exception When validation fails.
 	 * @param string $object_type Name of object.
 	 */
 	public function __construct( $object_type ) {
@@ -73,19 +74,19 @@ class Data_Store {
 			$store = apply_filters( 'dweb_wishlist_' . $object_type . '_data_store', $this->stores[ $object_type ] );
 			if ( is_object( $store ) ) {
 				if ( ! $store instanceof \Dornaweb\WooCommerceWishlist\Interfaces\Object_Data_Store_Interface ) {
-					throw new Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
+					throw new \Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
 				}
 				$this->current_class_name = get_class( $store );
 				$this->instance           = $store;
 			} else {
 				if ( ! class_exists( $store ) ) {
-					throw new Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
+					throw new \Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
 				}
 				$this->current_class_name = $store;
 				$this->instance           = new $store();
 			}
 		} else {
-			throw new Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
+			throw new \Exception( __( 'Invalid data store.', 'dweb_wishlist' ) );
 		}
 	}
 
@@ -101,7 +102,7 @@ class Data_Store {
 	/**
 	 * Re-run the constructor with the object type.
 	 *
-	 * @throws Exception When validation fails.
+	 * @throws \Exception When validation fails.
 	 */
 	public function __wakeup() {
 		$this->__construct( $this->object_type );
@@ -113,7 +114,7 @@ class Data_Store {
 	 * @param string $object_type Name of object.
 	 *
 	 * @since 1.0.0
-	 * @throws Exception When validation fails.
+	 * @throws \Exception When validation fails.
 	 * @return Data_Store
 	 */
 	public static function load( $object_type ) {

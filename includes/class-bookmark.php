@@ -23,7 +23,6 @@ class Bookmark extends Data
 	 */
 	protected $data = array(
         'entry_id'      => 0,
-        'variation_id'  => 0,
         'list_id'       => 0,
         'user_id'       => 0,
         'note'          => '',
@@ -76,7 +75,7 @@ class Bookmark extends Data
 		if ( $this->get_id() ) {
 			try {
 				$this->data_store->read( $this );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				$this->set_id( 0 );
 				$this->set_object_read( true );
 			}
@@ -104,6 +103,10 @@ class Bookmark extends Data
 		$this->changes = [];
 	}
 
+    public function exists() {
+        return $this->get_id() > 0;
+    }
+
     /**
      *
      * @param string $context View or Edit context
@@ -121,16 +124,6 @@ class Bookmark extends Data
      */
     public function get_product_id($context = 'view') {
         return $this->get_entry_id($context);
-    }
-
-    /**
-     * Alias of get_entry_id
-     *
-     * @param string $context View or Edit context
-     * @return
-     */
-    public function get_variation_id($context = 'view') {
-        return $this->get_prop('variation_id', $context);
     }
 
     /**
@@ -177,15 +170,6 @@ class Bookmark extends Data
      */
     public function set_product_id($product_id = 0) {
         $this->set_entry_id($product_id);
-    }
-
-    /**
-     * Set variation id
-     *
-     * @param string $variation_id
-     */
-    public function set_variation_id($variation_id = 0) {
-        $this->set_prop( 'variation_id', $variation_id );
     }
 
     /**
