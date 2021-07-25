@@ -13,8 +13,7 @@ defined('ABSPATH') || exit;
 /**
  * WooCommerceWishlist Bookmark class
  */
-class Bookmarks_Factory extends Data
-{
+class Bookmarks_Factory extends {
     /**
      * Bookmark an item (any wordpress post)
      *
